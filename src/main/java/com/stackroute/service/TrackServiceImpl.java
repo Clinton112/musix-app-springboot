@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepository trackRepository;
+    private TrackRepository trackRepository;
 
     @Autowired
     public TrackServiceImpl(TrackRepository trackRepository) {
@@ -31,28 +31,22 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track getTrackById(int id) {
-
         Track track = trackRepository.findById(id).get();
         return track;
-
     }
 
     @Override
-    public void deleteTrack(int id) {
-
-        trackRepository.delete(getTrackById(id));
-
+    public Track deleteTrack(int id) {
+       return trackRepository.delete(getTrackById(id));
     }
 
     @Override
     public Track updateTrack(int id,String comment) {
-
         Optional<Track> track = trackRepository.findById(id);
         Track track1 = track.get();
         track1.setComment(comment);
         Track savedTrack = trackRepository.save(track1);
         return savedTrack;
-
     }
 
     @Override
@@ -64,8 +58,4 @@ public class TrackServiceImpl implements TrackService {
     public List<Track> getTrackByNameSortByName(String name) {
         return trackRepository.findByNameSortedById(name);
     }
-
-
-
-
 }
