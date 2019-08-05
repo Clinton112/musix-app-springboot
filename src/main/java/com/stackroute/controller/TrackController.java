@@ -20,10 +20,11 @@ import java.util.List;
 @RequestMapping(value="api/v1")
 public class TrackController {
 
-    TrackService trackService;
-    TrackRepository trackRepository;
-    Track track;
-
+    private TrackService trackService;
+    private TrackRepository trackRepository;
+    private Track track;
+    
+    @Autowired
     public TrackController(TrackService trackService) {
         this.trackService = trackService;
     }
@@ -36,11 +37,9 @@ public class TrackController {
             trackService.saveTrack(track);
             responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
         }
-
         catch(TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
-
         return responseEntity;
 
     }
@@ -49,13 +48,10 @@ public class TrackController {
     public ResponseEntity<?> getTracks(@RequestBody List<Track> track) throws RuntimeException, TrackAlreadyExistsException {
 
         ResponseEntity responseEntity;
-
         for(Track t:track) {
             trackService.saveTrack(t);
         }
-
         responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.CREATED);
-
         return responseEntity;
     }
 
@@ -63,36 +59,25 @@ public class TrackController {
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws TrackNotFoundException {
 
         ResponseEntity responseEntity;
-
         trackService.deleteTrack(track);
         responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.OK);
-
-
-
-
-
         return responseEntity;
 
     }
+    
     @PutMapping("/track")
     public ResponseEntity<?> updateTrack(@RequestBody Track track) throws TrackNotFoundException
     {
         ResponseEntity responseEntity;
-
-
         trackService.updateTrack(track);
         responseEntity = new ResponseEntity<String>("successfully updated", HttpStatus.CREATED);
         return responseEntity;
     }
 
-
     @GetMapping("track")
     public ResponseEntity<?> getAllTracks() {
         ResponseEntity responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.OK);
-       /* System.out.println(trackService.getByTrackName("hello").toString());
-        System.out.println(trackService.getByTrackName("hello").toString());*/
         return responseEntity;
-
     }
 
 }
