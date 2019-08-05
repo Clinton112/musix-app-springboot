@@ -8,9 +8,9 @@ import javax.persistence.Id;
 public class Track {
 
     @Id
-    int id;
-    String name;
-    String comment;
+    private int id;
+    private String name;
+    private String comment;
 
     public Track() {
     }
