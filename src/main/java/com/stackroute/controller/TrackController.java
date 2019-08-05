@@ -31,7 +31,6 @@ public class TrackController {
 
     @PostMapping("track")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-
         ResponseEntity responseEntity;
         try {
             trackService.saveTrack(track);
@@ -41,12 +40,10 @@ public class TrackController {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
-
     }
 
     @PostMapping("tracks")
     public ResponseEntity<?> getTracks(@RequestBody List<Track> track) throws RuntimeException, TrackAlreadyExistsException {
-
         ResponseEntity responseEntity;
         for(Track t:track) {
             trackService.saveTrack(t);
@@ -57,7 +54,6 @@ public class TrackController {
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws TrackNotFoundException {
-
         ResponseEntity responseEntity;
         trackService.deleteTrack(track);
         responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.OK);
@@ -79,5 +75,4 @@ public class TrackController {
         ResponseEntity responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.OK);
         return responseEntity;
     }
-
 }
