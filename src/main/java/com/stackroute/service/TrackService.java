@@ -10,13 +10,12 @@ public interface TrackService {
 
     public Track getTrackById(int id);
 
-    public void deleteTrack(int id);
+    public Track deleteTrack(int id);
 
     public List<Track> getAllTracks();
 
     public Track updateTrack(int id,String comment);
     List<Track> getByTrackName(String name);
     List<Track> getTrackByNameSortByName(String name);
-
 
 }
