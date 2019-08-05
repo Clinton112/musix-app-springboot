@@ -1,18 +1,28 @@
 package com.stackroute.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackroute.domain.Track;
 import com.stackroute.exceptions.TrackAlreadyExistsException;
 import com.stackroute.exceptions.TrackNotFoundException;
+import com.stackroute.repository.TrackRepository;
 import com.stackroute.service.TrackService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="api/v1")
 public class TrackController {
 
     TrackService trackService;
+    TrackRepository trackRepository;
+    Track track;
 
     public TrackController(TrackService trackService) {
         this.trackService = trackService;
@@ -35,47 +45,53 @@ public class TrackController {
 
     }
 
+    @PostMapping("tracks")
+    public ResponseEntity<?> getTracks(@RequestBody List<Track> track) throws RuntimeException, TrackAlreadyExistsException {
+
+        ResponseEntity responseEntity;
+
+        for(Track t:track) {
+            trackService.saveTrack(t);
+        }
+
+        responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.CREATED);
+
+        return responseEntity;
+    }
+
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws TrackNotFoundException {
 
         ResponseEntity responseEntity;
-        try{
 
-            trackService.deleteTrack(id);
-            responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.NO_CONTENT);
+        trackService.deleteTrack(track);
+        responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.OK);
 
-        }
 
-        catch (TrackNotFoundException ex) {
 
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+
 
         return responseEntity;
 
     }
-
-    @PutMapping(value = "/update/{id}/{comment}")
-    public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
-
+    @PutMapping("/track")
+    public ResponseEntity<?> updateTrack(@RequestBody Track track) throws TrackNotFoundException
+    {
         ResponseEntity responseEntity;
-        try {
-            trackService.updateTrack(id,comment);
-            responseEntity = new ResponseEntity<String>("Update Successfull", HttpStatus.CREATED);
-        } catch (Exception ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+
+
+        trackService.updateTrack(track);
+        responseEntity = new ResponseEntity<String>("successfully updated", HttpStatus.CREATED);
         return responseEntity;
-
     }
-
 
 
     @GetMapping("track")
     public ResponseEntity<?> getAllTracks() {
-        System.out.println(trackService.getByTrackName("good").toString());
-        System.out.println(trackService.getTrackByNameSortByName("good").toString());
-        return new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.OK);
+       /* System.out.println(trackService.getByTrackName("hello").toString());
+        System.out.println(trackService.getByTrackName("hello").toString());*/
+        return responseEntity;
 
     }
 
