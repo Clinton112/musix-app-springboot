@@ -13,7 +13,7 @@ import java.util.Optional;
 public class TrackServiceImpl implements TrackService {
 
     TrackRepository trackRepository;
-   // Track track;
+    Track track;
 
     @Autowired
     public TrackServiceImpl(TrackRepository trackRepository) {
@@ -22,15 +22,12 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
+        if (trackRepository.existsById(track.getId())) {
 
-        if(trackRepository.existsById(track.getId())) {
-            throw new TrackAlreadyExistsException("Track Already Exists");
+            throw new TrackAlreadyExistsException("Track already exists with id" );
         }
         Track savedTrack = trackRepository.save(track);
 
-        if(savedTrack == null) {
-            throw new TrackAlreadyExistsException("Track Already Exists");
-        }
         return savedTrack;
     }
 
@@ -42,45 +39,33 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public Track getTrackById(int id) {
 
+
         Track track = trackRepository.findById(id).get();
         return track;
 
     }
 
     @Override
-    public boolean deleteTrack(int id) throws TrackNotFoundException {
-
-        if(!trackRepository.existsById(id)) {
-            throw new TrackNotFoundException("No track found with given ID");
+    public void deleteTrack(int id) throws TrackNotFoundException {
+        if(!trackRepository.existsById(id))
+        {
+            throw new TrackNotFoundException("Track not found");
         }
 
         trackRepository.delete(getTrackById(id));
-        return true;
 
     }
 
     @Override
-    public Track updateTrack(Track track) throws TrackNotFoundException {
+    public Track updateTrack(int id,String comment) {
 
-      if(trackRepository.existsById(track.getId()))
-      {
-
-        Track updateTrack=trackRepository.save(track);
-        return updateTrack;
-
-
-      }
-
-      else {
-
-        throw new TrackNotFoundException("ID doesnt exist");
-      }
-
-
+        Optional<Track> track = trackRepository.findById(id);
+        Track track1 = track.get();
+        track1.setComment(comment);
+        Track savedTrack = trackRepository.save(track1);
+        return savedTrack;
 
     }
-
-
 
     @Override
     public List<Track> getByTrackName(String name) {
@@ -88,8 +73,11 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getByTrackNameSortByName(String name) {
-        return trackRepository.findByNameSortById(name);
+    public List<Track> getTrackByNameSortByName(String name) {
+        return trackRepository.findByNameSortedById(name);
     }
+
+
+
 
 }

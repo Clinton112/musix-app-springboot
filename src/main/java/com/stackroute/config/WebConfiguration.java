@@ -1,3 +1,4 @@
+/*
 package com.stackroute.config;
 
 import org.apache.catalina.servlets.WebdavServlet;
@@ -8,11 +9,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfiguration {
 
-    /*@Bean
+    */
+/*@Bean
     ServletRegistrationBean h2servletRegistration() {
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebdavServlet());
         registrationBean.addUrlMappings("/console/");
         return registrationBean;
-    }*/
+    }*//*
+
 
 }
+*/

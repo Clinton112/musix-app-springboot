@@ -1,34 +1,21 @@
 package com.stackroute.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Data;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Track {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     int id;
     String name;
     String comment;
 
-  public Track(String comment, String name) {
-  }
+    public Track() {
+    }
 
-
-
-   /* public Track(int id, String name, String comment) {
+    public Track(int id, String name, String comment) {
         this.id = id;
         this.name = name;
         this.comment = comment;
@@ -57,6 +44,13 @@ public class Track {
     public void setComment(String comment) {
         this.comment = comment;
     }
-*/
 
+    @Override
+    public String toString() {
+        return "Track{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }
