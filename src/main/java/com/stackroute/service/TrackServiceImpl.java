@@ -1,10 +1,9 @@
 package com.stackroute.service;
 
 import com.stackroute.domain.Track;
-import com.stackroute.exceptions.TrackAlreadyExistsException;
-import com.stackroute.exceptions.TrackNotFoundException;
 import com.stackroute.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -20,16 +19,8 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track saveTrack(Track track) throws TrackAlreadyExistsException {
-
-        if(trackRepository.existsById(track.getId())) {
-            throw new TrackAlreadyExistsException("Track Already Exists");
-        }
+    public Track saveTrack(Track track) {
         Track savedTrack = trackRepository.save(track);
-
-        if(savedTrack == null) {
-            throw new TrackAlreadyExistsException("Track Already Exists");
-        }
         return savedTrack;
     }
 
@@ -47,11 +38,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void deleteTrack(int id) throws TrackNotFoundException {
-
-        if(!trackRepository.existsById(id)) {
-            throw new TrackNotFoundException("No track found with given ID");
-        }
+    public void deleteTrack(int id) {
 
         trackRepository.delete(getTrackById(id));
 
@@ -74,8 +61,11 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getByTrackNameSortByName(String name) {
-        return trackRepository.findByNameSortById(name);
+    public List<Track> getTrackByNameSortByName(String name) {
+        return trackRepository.findByNameSortedById(name);
     }
+
+
+
 
 }
