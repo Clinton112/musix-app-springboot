@@ -1,2 +1,2 @@
-Spring Boot Demo Application 2. Use h2-console to view in-memory data
+Spring Boot Demo Application Add @Lombok (https://drive.google.com/file/d/1QQpEQZbDD9pmW2qrhYsx5N9XYQ5bJ5dM/view)
 
