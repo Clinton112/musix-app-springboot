@@ -36,8 +36,8 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void deleteTrack(int id) {
-        trackRepository.delete(getTrackById(id));
+    public Track deleteTrack(int id) {
+        return trackRepository.delete(getTrackById(id));
     }
 
     @Override
