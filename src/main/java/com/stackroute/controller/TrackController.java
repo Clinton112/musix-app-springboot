@@ -20,67 +20,52 @@ import java.util.List;
 @RequestMapping(value="api/v1")
 public class TrackController {
 
-    TrackService trackService;
-    TrackRepository trackRepository;
+    private TrackService trackService;
+    private TrackRepository trackRepository;
 
+    @Autowired
     public TrackController(TrackService trackService) {
         this.trackService = trackService;
     }
 
     @PostMapping("track")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-
         ResponseEntity responseEntity;
         try {
             trackService.saveTrack(track);
             responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
         }
-
         catch(TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
-
         return responseEntity;
-
     }
 
     @PostMapping("tracks")
     public ResponseEntity<?> getTracks(@RequestBody List<Track> track) throws RuntimeException, TrackAlreadyExistsException {
-
         ResponseEntity responseEntity;
-
         for(Track t:track) {
             trackService.saveTrack(t);
         }
-
         responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.CREATED);
-
         return responseEntity;
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
-
         ResponseEntity responseEntity;
         try{
-
             trackService.deleteTrack(id);
             responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.NO_CONTENT);
-
         }
-
         catch (TrackNotFoundException ex) {
-
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
-
         return responseEntity;
-
     }
 
     @PutMapping(value = "/update/{id}/{comment}")
     public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
-
         ResponseEntity responseEntity;
         try {
             trackService.updateTrack(id,comment);
@@ -89,18 +74,7 @@ public class TrackController {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
-
     }
-
-
-    /*public void getBulkData() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println("vishal");
-        URL url = new URL("http://ws.audioscrobbler.com/2.0/?method=track.search&track=Believe&api_key=5a2f391ed9b92b27a6a5b4113743df8c&format=json");
-        Track track = objectMapper.readValue(url, Track.class);
-        trackRepository.save(track);
-        System.out.println(track.toString());
-    }*/
 
     @GetMapping("tracks")
     public ResponseEntity<?> getAllTracks() {
@@ -108,7 +82,5 @@ public class TrackController {
         System.out.println(trackService.getByTrackName("hello").toString());
         System.out.println(trackService.getByTrackName("hello").toString());
         return responseEntity;
-
     }
-
 }
