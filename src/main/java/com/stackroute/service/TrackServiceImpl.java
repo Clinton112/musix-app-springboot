@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepository trackRepository;
+    private TrackRepository trackRepository;
 
     @Autowired
     public TrackServiceImpl(TrackRepository trackRepository) {
@@ -21,12 +21,10 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
-
         if(trackRepository.existsById(track.getId())) {
             throw new TrackAlreadyExistsException("Track Already Exists");
         }
         Track savedTrack = trackRepository.save(track);
-
         if(savedTrack == null) {
             throw new TrackAlreadyExistsException("Track Already Exists");
         }
@@ -40,10 +38,8 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track getTrackById(int id) {
-
         Track track = trackRepository.findById(id).get();
         return track;
-
     }
 
     @Override
@@ -52,20 +48,16 @@ public class TrackServiceImpl implements TrackService {
         if(!trackRepository.existsById(id)) {
             throw new TrackNotFoundException("No track found with given ID");
         }
-
         trackRepository.delete(getTrackById(id));
-
     }
 
     @Override
     public Track updateTrack(int id,String comment) {
-
         Optional<Track> track = trackRepository.findById(id);
         Track track1 = track.get();
         track1.setComment(comment);
         Track savedTrack = trackRepository.save(track1);
         return savedTrack;
-
     }
 
     @Override
