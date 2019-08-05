@@ -1,4 +1,4 @@
-package com.stackroute;
+package com.stackroute.seeddata;
 
 import com.stackroute.domain.Track;
 import com.stackroute.repository.TrackRepository;

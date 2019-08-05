@@ -22,7 +22,6 @@ public class TrackController {
 
     TrackService trackService;
     TrackRepository trackRepository;
-    Track track;
 
     public TrackController(TrackService trackService) {
         this.trackService = trackService;
@@ -60,37 +59,54 @@ public class TrackController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws TrackNotFoundException {
+    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
 
         ResponseEntity responseEntity;
+        try{
 
-        trackService.deleteTrack(track);
-        responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.OK);
+            trackService.deleteTrack(id);
+            responseEntity = new ResponseEntity("Delete Successfull", HttpStatus.NO_CONTENT);
 
+        }
 
+        catch (TrackNotFoundException ex) {
 
-
+            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
 
         return responseEntity;
 
     }
-    @PutMapping("/track")
-    public ResponseEntity<?> updateTrack(@RequestBody Track track) throws TrackNotFoundException
-    {
+
+    @PutMapping(value = "/update/{id}/{comment}")
+    public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
+
         ResponseEntity responseEntity;
-
-
-        trackService.updateTrack(track);
-        responseEntity = new ResponseEntity<String>("successfully updated", HttpStatus.CREATED);
+        try {
+            trackService.updateTrack(id,comment);
+            responseEntity = new ResponseEntity<String>("Update Successfull", HttpStatus.CREATED);
+        } catch (Exception ex) {
+            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
         return responseEntity;
+
     }
 
 
-    @GetMapping("track")
+    /*public void getBulkData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("vishal");
+        URL url = new URL("http://ws.audioscrobbler.com/2.0/?method=track.search&track=Believe&api_key=5a2f391ed9b92b27a6a5b4113743df8c&format=json");
+        Track track = objectMapper.readValue(url, Track.class);
+        trackRepository.save(track);
+        System.out.println(track.toString());
+    }*/
+
+    @GetMapping("tracks")
     public ResponseEntity<?> getAllTracks() {
         ResponseEntity responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.OK);
-       /* System.out.println(trackService.getByTrackName("hello").toString());
-        System.out.println(trackService.getByTrackName("hello").toString());*/
+        System.out.println(trackService.getByTrackName("hello").toString());
+        System.out.println(trackService.getByTrackName("hello").toString());
         return responseEntity;
 
     }
