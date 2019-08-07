@@ -1,1 +1,3 @@
-Spring Boot Demo Application Create custom exceptions TrackNotFoundException, TrackAlreadyExistsException in a com.stack....exceptions package. Perform appropriate exception handling and propagation Back.
+Spring Boot Demo Application
+
+Complete all the endpoints for CRUD operations on Muzix
