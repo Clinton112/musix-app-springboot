@@ -14,12 +14,12 @@ public interface TrackService{
 
     public Track deleteTrack(Track track) throws TrackNotFoundException;
 
-    public List<Track> getAllTracks();
+    public List<Track> getAllTracks()throws TrackNotFoundException;
 
     public Track updateTrack(Track track) throws TrackNotFoundException;
 
 
-    List<Track> getByTrackName(String name);
+    List<Track> getByTrackName(String name)throws TrackNotFoundException;
 
-    List<Track> getByTrackNameSortByName(String name);
+    List<Track> getByTrackNameSortByName(String name)throws TrackNotFoundException;
 }
