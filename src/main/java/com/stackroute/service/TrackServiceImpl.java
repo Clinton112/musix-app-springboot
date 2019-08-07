@@ -21,7 +21,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track saveTrack(Track track) throws TrackAlreadyExistsException {
+    public Track saveTrack(Track track)  {
         if (trackRepository.existsById(track.getId())) {
 
             throw new TrackAlreadyExistsException("Track already exists with id" );
@@ -31,18 +31,18 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getAllTracks()throws TrackNotFoundException {
+    public List<Track> getAllTracks() {
         return trackRepository.findAll();
     }
 
     @Override
-    public Track getTrackById(int id) throws TrackNotFoundException{
+    public Track getTrackById(int id){
         Track track = trackRepository.findById(id).get();
         return track;
     }
 
     @Override
-    public Track deleteTrack(int id) throws TrackNotFoundException {
+    public Track deleteTrack(int id) {
         if(!trackRepository.existsById(id))
         {
             throw new TrackNotFoundException("Track not found");
@@ -51,7 +51,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track updateTrack(int id,String comment) throws TrackNotFoundException{
+    public Track updateTrack(int id,String comment) {
         Optional<Track> track = trackRepository.findById(id);
         Track track1 = track.get();
         track1.setComment(comment);
@@ -60,12 +60,12 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getByTrackName(String name) throws TrackNotFoundException{
+    public List<Track> getByTrackName(String name) {
         return trackRepository.findByName(name);
     }
 
     @Override
-    public List<Track> getTrackByNameSortByName(String name)throws TrackNotFoundException {
+    public List<Track> getTrackByNameSortByName(String name){
         return trackRepository.findByNameSortedById(name);
     }
 }
