@@ -29,6 +29,9 @@ public class TrackController {
         catch(TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
        return responseEntity;
     }
 
@@ -43,6 +46,9 @@ public class TrackController {
         catch (TrackNotFoundException ex) {
 
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
         }
         return responseEntity;
     }
