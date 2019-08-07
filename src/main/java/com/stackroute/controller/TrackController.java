@@ -32,7 +32,7 @@ public class TrackController {
        return responseEntity;
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/track/{id}")
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
 
         ResponseEntity responseEntity;
@@ -47,7 +47,7 @@ public class TrackController {
         return responseEntity;
     }
 
-    @PutMapping(value = "/update/{id}/{comment}")
+    @PutMapping(value = "/track/{id}/{comment}")
     public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
 
         ResponseEntity responseEntity;
@@ -60,7 +60,7 @@ public class TrackController {
         return responseEntity;
     }
 
-    @GetMapping("track")
+    @GetMapping("tracks")
     public ResponseEntity<?> getAllTracks() {
         System.out.println(trackService.getByTrackName("good").toString());
         System.out.println(trackService.getTrackByNameSortByName("good").toString());
