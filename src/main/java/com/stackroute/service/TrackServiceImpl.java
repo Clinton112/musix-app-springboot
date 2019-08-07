@@ -64,12 +64,12 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> getByTrackName(String name) {
+    public List<Track> getByTrackName(String name)throws TrackNotFoundException {
         return trackRepository.findByName(name);
     }
 
     @Override
-    public List<Track> getByTrackNameSortByName(String name) {
+    public List<Track> getByTrackNameSortByName(String name)throws TrackNotFoundException {
         return trackRepository.findByNameSortById(name);
     }
 
