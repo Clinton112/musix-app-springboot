@@ -11,15 +11,15 @@ public interface TrackService {
 
     public Track saveTrack (Track track) throws TrackAlreadyExistsException;
 
-    public Track getTrackById (int id);
+    public Track getTrackById (int id)throws TrackNotFoundException;
 
     public Track deleteTrack(int id) throws TrackNotFoundException;
 
-    public List<Track> getAllTracks();
+    public List<Track> getAllTracks()throws TrackNotFoundException;
 
-    public Track updateTrack(int id,String comment);
-    List<Track> getByTrackName(String name);
-    List<Track> getTrackByNameSortByName(String name);
+    public Track updateTrack(int id,String comment)throws TrackNotFoundException;
+    List<Track> getByTrackName(String name)throws TrackNotFoundException;
+    List<Track> getTrackByNameSortByName(String name)throws TrackNotFoundException;
 
 
 }
