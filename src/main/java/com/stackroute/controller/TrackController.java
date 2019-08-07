@@ -39,6 +39,9 @@ public class TrackController {
         catch(TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         return responseEntity;
     }
 
