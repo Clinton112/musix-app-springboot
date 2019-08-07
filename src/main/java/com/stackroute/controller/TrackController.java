@@ -52,7 +52,7 @@ public class TrackController {
         return responseEntity;
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/track/{id}")
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws TrackNotFoundException {
         ResponseEntity responseEntity;
         trackService.deleteTrack(track);
