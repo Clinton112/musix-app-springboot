@@ -51,7 +51,7 @@ public class TrackController {
         return responseEntity;
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/track/{id}")
     public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
         ResponseEntity responseEntity;
         try{
@@ -64,7 +64,7 @@ public class TrackController {
         return responseEntity;
     }
 
-    @PutMapping(value = "/update/{id}/{comment}")
+    @PutMapping(value = "/track/{id}/{comment}")
     public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
         ResponseEntity responseEntity;
         try {
